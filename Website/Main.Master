@@ -1,0 +1,401 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="E_Shopping.Website.Main" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>E-Shopping OnlineStore </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/plazaicon.css">
+    <link rel="stylesheet" href="assets/css/vendor/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/animate.css">
+    <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/select2.min.css">
+
+    <!-- Helper CSS -->
+    <link rel="stylesheet" href="assets/css/helper.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <div class="main-wrapper">
+                   <!--Top Notification Start-->
+        <div class="top-notification-bar text-center">
+            <div class="container">
+                <div class="notification-entry">
+                 <marquee>
+                      <p style="color:white">FREE DELIVERY ON ORDERS ABOVE Rs.1500/-, LESS THAN Rs.1500/- ORDER DELIVERY CHARGERS WILL APPLY Rs150/- ALL OVER PAKISTAN.</p> 
+                         
+                 </marquee>
+                </div>
+            </div>
+         
+        </div>
+        <!--Top Notification End-->
+
+                <!--Header Section Start-->
+                <div class="header-section d-none d-lg-block">
+                    <div class="main-header">
+                        <div class="container position-relative">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2">
+                                    <div class="header-logo">
+                                        <a href="Default.aspx">
+                                            <img src="assets/images/logo/logo.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 position-static">
+                                    <div class="site-main-nav">
+                                        <nav class="site-nav">
+                                            <ul>
+                                                <li><a href="Default.aspx">Home</a></li>
+                                                <li>
+                                                       <asp:LinkButton ID="LinkButton6" PostBackUrl='<%# "Shop.aspx?Id="+Eval("id")%>' runat="server">  Shop</asp:LinkButton>
+                                                    <ul class="sub-menu">
+                                                        <asp:Repeater ID="rNavBar" runat="server">
+                                                            <ItemTemplate>
+                                                                <li>
+                                                                    <asp:LinkButton ID="LinkButton1" PostBackUrl='<%#"Shop.aspx?Id="+Eval("id")%>' runat="server"><%# Eval("category") %>  <li></li></asp:LinkButton>
+                                                                </li>
+
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+
+
+                                                    </ul>
+                                                </li>
+                                                <li><a href="Contact.aspx">Contact</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="header-meta-info">
+                                        <div class="header-search">
+
+                                            <input type="text" placeholder="Search our store ">
+                                            <button><i class="icon-search"></i></button>
+                                        </div>
+                                        <div class="header-account">
+
+                                            <div class="header-account-list dropdown mini-cart">
+                                                <a href="AddCart.aspx" data-toggle="dropdown">
+                                                    <i class="icon-shopping-bag"></i>
+                                                    <span class="item-count ">
+                                                        <%Response.Write(Session["CartCount"]);%>
+
+                                                    </span>
+                                                </a>
+                                                <ul class="dropdown-menu ">
+                                                   
+                                                          <asp:Label ID="lblMsg" runat="server" Visiable="false"></asp:Label>
+                                                        <asp:Repeater ID="rCartShow" runat="server" OnItemCommand="rCartShow_ItemCommand">
+                                                            <ItemTemplate>
+
+                                                                 <li class="product-cart">
+                                                                <div class="single-cart-box">
+                                                                    <div class="cart-img">
+                                                                        <a>
+                                                                         
+                                                                    <img src='<%# E_Shopping.Utils.GetImageUrl ( Eval("ImageUrl")) %>' alt="">
+                                                                       
+                                                                        </a>
+                                                                        <span class="pro-quantity"><%# Eval("Quantity") %>x</span>
+                                                                    </div>
+                                                                    <div class="cart-content">
+                                                                        <h6 class="title">
+                                                                       <%# Eval("Name") %></h6>
+                                                                        <div class="cart-price">
+
+                                                                            <span class="sale-price">Rs<%# Eval("Price") %>/-</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <asp:LinkButton ID="LinkButton3" class="del-icon" CommandName="remove" CommandArgument='<%# Eval("PrdouctId") %>' runat="server"><i class="fa fa-trash"></i></asp:LinkButton>
+
+                                                                </div>
+
+                                                           
+                                                                     </li>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                             
+                                                        <li class="product-btn">
+                                                     
+                                                            <asp:LinkButton ID="LinkButton5" PostBackUrl="~/Website/AddCart.aspx" class="btn btn-dark btn-block"  runat="server">View Cart</asp:LinkButton>
+                                                            
+                                                        </li>
+                                                        <li class="product-btn">
+                                                            
+                                                            <asp:LinkButton ID="LinkButton2" PostBackUrl="~/Website/Checkout.aspx" class="btn btn-dark btn-block"  runat="server">Checkout </asp:LinkButton>
+                                                        </li>
+
+                                                  
+                                                </ul>
+                                            </div>
+                                          
+                                            <div class="header-account-list ">
+                                                <asp:LinkButton ID="lblLogoutOrLogin" runat="server" CausesValidation="false" ></asp:LinkButton>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Header Section End-->
+
+
+                <!--Header Mobile Start-->
+                <div class="header-mobile d-lg-none">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-6">
+                                <div class="header-logo">
+                                    <a href="Default.aspx">
+                                        <img src="assets/images/logo/logo.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="header-meta-info">
+                                    <div class="header-account">
+                                        <div class="header-account-list dropdown top-link">
+                                            <%-- <asp:LinkButton ID="lblLogoutOrLogin"  CssClass="LoginBtn" runat="server" CausesValidation="false"></asp:LinkButton>--%>
+
+                                            <ul class="dropdown-menu ">
+                                                <li><a href="#">Delivery</a></li>
+                                                <li><a href="#">Legal Notice</a></li>
+                                                <li><a href="#">Secure payment</a></li>
+                                                <li><a href="#">Sitemap</a></li>
+                                                <li><a href="#">About us</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="header-account-list mini-cart">
+                                            <a href="#">
+                                                <i class="icon-shopping-bag"></i>
+                                                <span class="item-count "><%Response.Write(Session["CartCount"]); %></span>
+                                            </a>
+                                        </div>
+                                        <div class="header-account-list mobile-menu-trigger">
+                                            <button id="menu-trigger">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Header Mobile End-->
+
+                <!--Header Mobile Menu Start-->
+                <div class="header-mobile-menu d-lg-none">
+
+                    <a href="javascript:void(0)" class="mobile-menu-close">
+                        <span></span>
+                        <span></span>
+                    </a>
+
+                    <div class="header-meta-info">
+                        <div class="header-search">
+                            <form action="#">
+                                <input type="text" placeholder="Search our store ">
+                                <button><i class="icon-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="site-main-nav">
+                        <nav class="site-nav">
+                            <ul class="navbar-mobile-wrapper">
+                                <li><a href="Default.aspx">Home</a></li>
+                                <li>
+                                    <a > <asp:LinkButton ID="LinkButton" PostBackUrl='<%# "Shop.aspx?Id="+Eval("id")%>' runat="server">  Shop</asp:LinkButton></a>
+                                    <ul class="sub-menu">
+                                        <asp:Repeater ID="Repeater1" runat="server">
+                                            <ItemTemplate>
+                                                <li>
+                                                    <asp:LinkButton ID="LinkButton" PostBackUrl='<%# "Shop.aspx?Id="+Eval("id")%>' runat="server"> <%# Eval("category") %>  <li></li></asp:LinkButton>
+                                                </li>
+
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+
+
+                                    </ul>
+                                </li>
+                                <li><a href="Contact.aspx">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="header-social">
+                        <ul class="social">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!--Header Mobile Menu End-->
+
+                <div class="overlay"></div>
+                <!--Overlay-->
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+                <!--Footer Section Start-->
+                <div class="footer-area">
+                    <div class="container">
+                        <div class="footer-widget-area section-padding-6">
+                            <div class="row justify-content-between">
+
+                                <!--Footer Widget Start-->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-widget">
+                                        <a class="footer-logo" href="#">
+                                            <img src="assets/images/logo/logo-white.png" alt=""></a>
+                                        <div class="footer-widget-text">
+                                            <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile for you. </p>
+                                        </div>
+                                        <div class="widget-social">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Footer Widget End-->
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="footer-widget">
+                                        <h4 class="footer-widget-title"></h4>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="footer-widget">
+                                      
+
+                                       
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="footer-widget">
+                                        <h4 class="footer-widget-title">Help</h4>
+
+                                        <div class="footer-widget-menu">
+                                            <ul>
+                                                <li><a href="Faqs.aspx">FAQ’s</a></li>
+                                                <li><a href="Privacy Policy.aspx">Privacy Policy</a></li>
+                                                <li><a href="Exchange.aspx">Exchange & Returns</a></li  >                                                                      
+                                                <li><a href="Contact.aspx">Contact Us</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="footer-widget">
+                                        <h4 class="footer-widget-title">Customer Service</h4>
+
+                                        <div class="footer-widget-menu">
+                                            <ul>
+                                                <li><a href="MyAccount.aspx">My Account</a></li>
+                                                   <li><a href="Register.aspx">Register</a></li>
+                                                    
+                                              
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer Section End-->
+
+                <!--Copyright Section Start-->
+                <div class="copyright-section">
+                    <div class="container">
+                        <div class="copyright-wrapper text-center d-lg-flex align-items-center justify-content-between">
+                            <div class="copyright-content">
+                                <p>Copyright 20222 &copy; Tasmiya Adnan. All Rights Reserved</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Copyright Section End-->
+                <!--Back To Start-->
+                <a href="#" class="back-to-top">
+                    <i class="fa fa-angle-double-up"></i>
+                </a>
+                <!--Back To End-->
+            </div>
+            <!-- JS
+    ============================================ -->
+
+            <!-- Modernizer JS -->
+            <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+            <!-- jQuery JS -->
+            <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="assets/js/vendor/popper.min.js"></script>
+            <script src="assets/js/vendor/bootstrap.min.js"></script>
+
+            <!-- Plugins JS -->
+            <script src="assets/js/plugins/swiper-bundle.min.js"></script>
+            <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+            <script src="assets/js/plugins/jquery.elevateZoom.min.js"></script>
+            <script src="assets/js/plugins/select2.min.js"></script>
+            <script src="assets/js/plugins/ajax-contact.js"></script>
+
+
+
+            <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
+            <!-- <script src="assets/js/plugins.min.js"></script> -->
+
+            <!-- Main JS -->
+            <script src="assets/js/main.js"></script>
+
+
+            <!-- Google Map js -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ5y0EF8dE6qwc03FcbXHJfXr4vEa7z54"></script>
+            <script src="assets/js/map-script.js"></script>
+
+        </div>
+    </form>
+</body>
+</html>
